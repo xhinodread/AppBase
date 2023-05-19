@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.appbase.R
+import com.example.appbase.data.EstadoEnvio
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
@@ -35,6 +36,12 @@ fun Seguimiento(){
     val focusRequesterMio = remember { FocusRequester() }
     var texto by remember {mutableStateOf("") }
     var cpntt by remember {mutableStateOf(0) }
+
+    var listEstado = listOf(
+        EstadoEnvio("Ayer", "En Sucursal"),
+        EstadoEnvio("Hoy", "En Ruta"),
+        EstadoEnvio("Recien", "En Destino"),
+    )
 
     Column(
         modifier = Modifier
@@ -100,7 +107,16 @@ fun Seguimiento(){
                     }
                 }
                 Spacer(modifier = Modifier.height(5.dp))
-                FormaTrackingB(shape= CircleShape, 0)
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentSize(Alignment.Center)
+                ){
+                    listEstado.map { estadoEnvio->
+                        var texto = "${estadoEnvio.fecha} ${estadoEnvio.estado}"
+                        FormaTrackingC(shape= CircleShape, texto)
+                    }
+                }
             }
         }
     }
@@ -112,8 +128,8 @@ fun hacerTrack(): Unit{
 }
 
 @Composable
-fun FormaTracking(shape: Shape){
-    Column(
+fun FormaTracking(shape: Shape, texto:String){
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentSize(Alignment.Center)
@@ -122,8 +138,16 @@ fun FormaTracking(shape: Shape){
             modifier = Modifier
                 .size(50.dp)
                 .clip(shape)
-                .background(Color.Red)
-        )
+                .background(Color.Red),
+            contentAlignment = Alignment.Center
+        ){
+            Text(
+                text=texto,
+                fontSize = 10.sp,
+                color = Color.White,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }
 
@@ -145,4 +169,25 @@ fun FormaTrackingB(shape: Shape, contador: Int =0){
             Spacer(modifier = Modifier.width(5.dp))
         }
     }
+}
+
+@Composable
+fun FormaTrackingC(shape: Shape, texto:String){
+    Box(
+        modifier = Modifier
+            .size(70.dp)
+            .clip(shape)
+            .background(Color.Red)
+            .fillMaxWidth()
+            .wrapContentSize(Alignment.Center)
+    ){
+        Text(
+            text=texto,
+            fontSize = 15.sp,
+            color = Color.White,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.ExtraBold
+        )
+    }
+    Spacer(modifier = Modifier.width(35.dp))
 }
