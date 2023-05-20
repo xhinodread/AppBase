@@ -4,10 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.appbase.ui.HomeScreen
-import com.example.appbase.ui.MoviesScreen
-import com.example.appbase.ui.MusicScreen
-import com.example.appbase.ui.ProfileScreen
+import com.example.appbase.ui.fragment.screen.Cotizacion
+import com.example.appbase.ui.fragment.screen.HomeScreen
+import com.example.appbase.ui.fragment.screen.Pagoonline
 import com.example.appbase.ui.fragment.screen.Seguimiento
 
 @Composable
@@ -20,10 +19,10 @@ fun Navigation(navController: NavHostController) {
             Seguimiento()
         }
         composable(NavigationItem.Pago.route) {
-            MusicScreen()
+            Pagoonline()
         }
         composable(NavigationItem.Cotizar.route) {
-            MusicScreen()
+            Cotizacion()
         }
         /***
         composable(NavigationItem.Movies.route) {

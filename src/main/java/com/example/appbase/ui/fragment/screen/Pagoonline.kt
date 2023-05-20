@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -16,48 +18,37 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.appbase.R
 import com.example.appbase.data.EstadoEnvio
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
-fun Seguimiento(){
+fun Pagoonline(){
 
     val focusRequesterMio = remember { FocusRequester() }
     var texto by remember {mutableStateOf("") }
     var cpntt by remember {mutableStateOf(0) }
 
-    var listEstado = listOf(
-        EstadoEnvio("Ayer", "En Sucursal"),
-        EstadoEnvio("Hoy", "En Ruta"),
-        EstadoEnvio("Recien", "En Destino"),
-        EstadoEnvio("Ahora", "En Reparto"),
-    )
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(colorResource(id = R.color.white))
             .wrapContentSize(Alignment.Center)
     ) {
-        /****
-        Text(
-            text = "Seguimiento de encomiendas",
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Center,
-            fontSize = 25.sp
-        )
-        *****/
         Card(
             elevation = 4.dp,
-            backgroundColor=(colorResource(id = R.color.purple_pi)),
+            backgroundColor=(colorResource(id = R.color.colorPrimaryPi)),
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
@@ -65,19 +56,19 @@ fun Seguimiento(){
                 .clickable { focusRequesterMio.requestFocus() }
         ) {
             Image(painterResource(
-                id = R.drawable.distribucion),
+                id = R.drawable.retiro_y_despacho_express),
                 contentDescription = null,
                 alignment = Alignment.BottomCenter
             )
             Column(modifier = Modifier.padding(10.dp)){
                 Text(
-                    text="SEGUIMIENTO EN LINEA",
+                    text="PAGO EN LINEA",
                     color = Color.White,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text="Para buscar, ingrese su número de orden de flete.",
+                    text="Ingrese el Rut asociado al pago.",
                     color = Color.White,
                     fontSize = 15.sp,
                     modifier = Modifier.padding(5.dp)
@@ -92,97 +83,35 @@ fun Seguimiento(){
                     OutlinedTextField(
                         value = texto,
                         onValueChange = {texto = it},
-                        label = {Text("Nro de orden", color=Color.White)},
+                        label = {Text("Rut del cliente")},
                         maxLines = 1,
                         modifier = Modifier
                             .width(200.dp)
                             .focusRequester(focusRequesterMio),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         colors = TextFieldDefaults.outlinedTextFieldColors(
-                            textColor =Color.White,
-                            focusedBorderColor = Color.LightGray,
-                            unfocusedBorderColor = Color.White,
-                            focusedLabelColor = Color.White,
-                            cursorColor = Color.Red
-                        ),
+                        textColor =Color.White,
+                        focusedBorderColor = Color.LightGray,
+                        unfocusedBorderColor = Color.White,
+                        focusedLabelColor = Color.White,
+                        cursorColor = Color.Red
+                    ),
                     )
                     Button(
                         onClick = { hacerClick(texto) },
-                        colors = ButtonDefaults.buttonColors(backgroundColor= colorResource(id = R.color.colorPrimaryDarkPi)),
+                        colors = ButtonDefaults.buttonColors(backgroundColor= colorResource(id = R.color.purple_pi)),
                         modifier = Modifier.padding(5.dp).fillMaxWidth()
                     ) {
-                        Text(text="Rastrear", color=Color.White)
+                        Text(text="Hacer pago", color=Color.White)
                     }
                 }
                 Spacer(modifier = Modifier.height(35.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentSize(Alignment.Center)
-                ){
-                    listEstado.map { estadoEnvio->
-                        var texto = "${estadoEnvio.fecha} ${estadoEnvio.estado}"
-                        FormaTrackingC(shape= CircleShape, texto)
-                    }
-                }
-                Spacer(modifier = Modifier.height(50.dp))
-                EncomiendaEntregada()
             }
         }
     }
 }
 
-
-private fun hacerClick(texto: String) {
-    Log.e("onList", "Data Form Seguimiento: " )
-    Log.e("onList", texto )
+private fun hacerClick(textoMensaje: String) {
+    Log.e("onList", "Data Form Pago OnLine: " )
+    Log.e("onList", textoMensaje )
 }
-
-
-@Composable
-fun FormaTrackingC(shape: Shape, texto:String){
-    Box(
-        modifier = Modifier
-            .size(70.dp)
-            .clip(shape)
-            .background(colorResource(id = R.color.rojo_pi))
-            .fillMaxWidth()
-            .wrapContentSize(Alignment.Center)
-    ){
-        Text(
-            text=texto,
-            fontSize = 15.sp,
-            color = Color.White,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.ExtraBold
-        )
-    }
-    Spacer(modifier = Modifier.width(35.dp))
-}
-
-@Composable
-fun EncomiendaEntregada(){
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentSize(Alignment.Center)
-    ) {
-        Box(
-            modifier = Modifier
-                .size(100.dp)
-                .clip(CircleShape)
-                .background(colorResource(id = R.color.rojo_pi))
-                .fillMaxWidth()
-                .wrapContentSize(Alignment.Center)
-        ) {
-            Text(
-                text = "Encomienda Entregada al cliente",
-                fontSize = 15.sp,
-                color = Color.White,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.ExtraBold
-            )
-        }
-    }
-}
-
