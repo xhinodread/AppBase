@@ -41,6 +41,8 @@ fun BottomNavigationBar(navController: NavController) {
                         // Pop up to the start destination of the graph to
                         // avoid building up a large stack of destinations
                         // on the back stack as users select items
+                        //navController.popBackStack()
+
                         navController.graph.startDestinationRoute?.let { route ->
                             popUpTo(route) {
                                 saveState = true

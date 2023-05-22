@@ -11,4 +11,7 @@ sealed class NavigationItem(var route: String, var icon: Int, var title: String)
     object Movies : NavigationItem("movies", R.drawable.ic_movie, "Entregados")
     object Books : NavigationItem("books", R.drawable.ic_book, "Books")
     object Profile : NavigationItem("profile", R.drawable.ic_profile, "Perfil")
+    object SplashScreen : NavigationItem("SplashScreen", R.drawable.ic_profile, "SplashScreen")
+    object LoginScreen : NavigationItem("LoginScreen", R.drawable.ic_profile, "LoginScreen")
 }
+

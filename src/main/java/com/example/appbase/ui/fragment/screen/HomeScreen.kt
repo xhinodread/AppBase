@@ -1,5 +1,6 @@
 package com.example.appbase.ui.fragment.screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -7,6 +8,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,12 +22,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.appbase.R
-
+import com.example.appbase.ui.viewmodel.LoginViewModel
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    loginViewModel: LoginViewModel
+) {
+    //val loginViewModel: LoginViewModel = viewModel()
+
+    val loginUiState by loginViewModel.uiState.observeAsState()
+    Log.d("onclick", "HomeScreen: " + loginUiState.toString())
+
+    val email :String by loginViewModel.email.observeAsState(initial="")
+
     Card(
-        elevation = 2.dp,
+        elevation = 6.dp,
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
@@ -32,13 +46,17 @@ fun HomeScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.white )),
+            .background(colorResource(id = R.color.white))
+            ,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
             Text(
-                text = "Usuario: JAracena, 14.305.302-0 ",
+                text = "Usuario: ${loginUiState?.emailUser}, ${loginUiState?.rutUser} ",
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
-                modifier = Modifier.align(Alignment.Start).padding(5.dp,0.dp),
+                modifier = Modifier
+                    .align(Alignment.Start)
+                    .padding(5.dp, 0.dp),
                 textAlign = TextAlign.Center,
                 fontSize = 10.sp
             )

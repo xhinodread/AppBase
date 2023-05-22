@@ -33,7 +33,7 @@ fun Seguimiento(){
     var texto by remember {mutableStateOf("") }
     var cpntt by remember {mutableStateOf(0) }
 
-    var listEstado = listOf(
+    val listEstado = listOf(
         EstadoEnvio("Ayer", "En Sucursal"),
         EstadoEnvio("Hoy", "En Ruta"),
         EstadoEnvio("Recien", "En Destino"),

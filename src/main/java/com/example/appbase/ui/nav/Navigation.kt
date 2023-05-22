@@ -1,19 +1,29 @@
 package com.example.appbase.ui.nav
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.appbase.ui.fragment.screen.Cotizacion
-import com.example.appbase.ui.fragment.screen.HomeScreen
-import com.example.appbase.ui.fragment.screen.Pagoonline
-import com.example.appbase.ui.fragment.screen.Seguimiento
+import com.example.appbase.ui.fragment.screen.*
+import com.example.appbase.ui.viewmodel.LoginViewModel
 
 @Composable
-fun Navigation(navController: NavHostController) {
-    NavHost(navController, startDestination = NavigationItem.Home.route) {
+fun Navigation(navController: NavHostController, loginViewModel: LoginViewModel) {
+    NavHost(
+        navController,
+        startDestination = NavigationItem.SplashScreen.route
+        //startDestination = NavigationItem.LoginScreen.route
+    ) {
+
+        composable( NavigationItem.SplashScreen.route){
+            SplashScreen(navController)
+        }
+        composable(NavigationItem.LoginScreen.route) {
+            LoginScreen({},  loginViewModel)
+        }
         composable(NavigationItem.Home.route) {
-            HomeScreen()
+            HomeScreen(loginViewModel)
         }
         composable(NavigationItem.Seguimiento.route) {
             Seguimiento()
